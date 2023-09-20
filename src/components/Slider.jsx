@@ -26,15 +26,14 @@ const Slider = () => {
 
   const prev = () => {
     if (heroDataIndex === 0) {
-      const index = sliderData.length - 1;
-      setHeroDataIndex(index);
+      return
     } else {
       setHeroDataIndex(heroDataIndex - 1);
     }
   };
   const next = () => {
     if (heroDataIndex >= sliderData.length - 1) {
-      setHeroDataIndex(0);
+      return
     } else {
       setHeroDataIndex(heroDataIndex + 1);
     }
@@ -58,11 +57,19 @@ const Slider = () => {
   return (
     <section className="lg:flex lg:items-center">
       <div className="relative lg:w-3/5">
-        <img
-          src={sliderData[heroDataIndex].images[deviceType]}
-          className="w-full object-cover"
-          alt="hero"
-        />
+        <div className="flex overflow-hidden">
+          {sliderData.map((item, index) => {
+            return (
+              <img
+                style={{ transform: `translateX(-${heroDataIndex * 100}%)` }}
+                className="w-full h-full object-cover flex-shrink-0 duration-300"
+                src={item.images[deviceType]}
+                alt="hero-image"
+                key={index}
+              />
+            );
+          })}
+        </div>
         <div className="absolute flex bottom-0 right-0 h-16 w-36 lg:translate-x-full">
           <button
             type="button"
