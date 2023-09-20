@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="h-20 z-50 flex items-center justify-center px-4 absolute w-full top-0 lg:w-3/5 lg:justify-start lg:pl-20 gap-8">
+      <header className="h-20 z-50 flex items-center justify-center px-4 absolute w-full top-0 lg:w-3/5 lg:justify-start lg:pl-20 gap-8 lg:mt-10">
         <img
           src={hamburger}
           alt="hamburger"

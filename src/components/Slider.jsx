@@ -8,8 +8,6 @@ import sliderData from "../data";
 const Slider = () => {
   const [deviceType, setDeviceType] = useState("");
   const [heroDataIndex, setHeroDataIndex] = useState(0);
-  const [fade, setFade] = useState(false);
-  const [selectedBtn, setSelectedBtn] = useState("");
 
   const toggleImageType = () => {
     if (innerWidth <= 450) {
@@ -41,70 +39,42 @@ const Slider = () => {
       setHeroDataIndex(heroDataIndex + 1);
     }
   };
-  useEffect(() => {
-    setFade(true);
-    const id = setTimeout(() => {
-      switch (selectedBtn) {
-        case "prev":
-          prev();
-          setSelectedBtn("");
-          break;
-        case "next":
-          next();
-          setSelectedBtn("");
-          break;
-        default:
-          "";
-      }
-      setFade(false);
-    }, 150);
-    return () => {
-      clearTimeout(id);
-    };
-  }, [selectedBtn]);
+
+  const keyboardFunc = (e) => {
+    if (e.key === "ArrowRight") {
+      next();
+    } else if (e.key === "ArrowLeft") {
+      prev();
+    }
+  };
 
   useEffect(() => {
-    const keyboardFunc = (e) => {
-      if (e.key === 'ArrowRight') {
-        setSelectedBtn('next')
-      }
-      else if (e.key === 'ArrowLeft') {
-        setSelectedBtn('prev')
-      }
-      console.log(e);
-    }
-    window.addEventListener('keydown', keyboardFunc)
+    window.addEventListener("keydown", keyboardFunc);
     return () => {
-      window.removeEventListener('keydown', keyboardFunc)
-    }
-  }, [])
+      window.removeEventListener("keydown", keyboardFunc);
+    };
+  }, [heroDataIndex]);
 
   return (
     <section className="lg:flex lg:items-center">
       <div className="relative lg:w-3/5">
         <img
           src={sliderData[heroDataIndex].images[deviceType]}
-          className={`w-full object-cover ${
-            fade ? "opacity-0" : "opacity-100"
-          }`}
+          className="w-full object-cover"
           alt="hero"
         />
-        <div className="absolute flex bottom-0 right-0 h-14 w-28 lg:translate-x-full">
+        <div className="absolute flex bottom-0 right-0 h-16 w-36 lg:translate-x-full">
           <button
             type="button"
             className="bg-black h-full w-1/2 flex justify-center items-center hover:bg-veryDarkGray cursor-pointer"
-            onClick={() => {
-              setSelectedBtn("prev");
-            }}
+            onClick={prev}
           >
             <img src={angleLeft} alt="angle-left" />
           </button>
           <button
             type="button"
             className="bg-black h-full w-1/2 flex justify-center items-center hover:bg-veryDarkGray"
-            onClick={() => {
-              setSelectedBtn("next");
-            }}
+            onClick={next}
           >
             <img src={angleRight} alt="angle-right" />
           </button>
