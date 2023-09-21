@@ -6,34 +6,18 @@ import { useState, useEffect } from "react";
 import sliderData from "../data";
 
 const Slider = () => {
-  const [deviceType, setDeviceType] = useState("");
   const [heroDataIndex, setHeroDataIndex] = useState(0);
-
-  const toggleImageType = () => {
-    if (innerWidth <= 450) {
-      setDeviceType("mobile");
-    } else {
-      setDeviceType("desktop");
-    }
-  };
-  useEffect(() => {
-    toggleImageType();
-    window.addEventListener("resize", toggleImageType);
-    return () => {
-      window.removeEventListener("resize", toggleImageType);
-    };
-  }, []);
 
   const prev = () => {
     if (heroDataIndex === 0) {
-      return
+      return;
     } else {
       setHeroDataIndex(heroDataIndex - 1);
     }
   };
   const next = () => {
     if (heroDataIndex >= sliderData.length - 1) {
-      return
+      return;
     } else {
       setHeroDataIndex(heroDataIndex + 1);
     }
@@ -60,13 +44,22 @@ const Slider = () => {
         <div className="flex overflow-hidden">
           {sliderData.map((item, index) => {
             return (
-              <img
-                style={{ transform: `translateX(-${heroDataIndex * 100}%)` }}
-                className="w-full h-full object-cover flex-shrink-0 duration-300"
-                src={item.images[deviceType]}
-                alt="hero-image"
+              <picture
                 key={index}
-              />
+                style={{ transform: `translateX(-${heroDataIndex * 100}%)` }}
+                className="w-full h-full flex-shrink-0 duration-300"
+              >
+                <source
+                  media="(max-width: 450px)"
+                  srcset={item.images.mobile}
+                />
+
+                <img
+                  src={item.images.desktop}
+                  alt="hero"
+                  className="w-full"
+                />
+              </picture>
             );
           })}
         </div>

@@ -46,6 +46,9 @@ const Navbar = () => {
         className={`fixed h-screen bg-black/50 w-screen top-0 bottom-0 left-0 right-0 duration-500 lg:invisible lg:z-[-10] lg:opacity-0 ${
           showLinks ? "visible z-10 opacity-100" : "invisible z-[-10] opacity-0"
         }`}
+        onClick={() => {
+          setShowLinks(false);
+        }}
       ></div>
     </>
   );
